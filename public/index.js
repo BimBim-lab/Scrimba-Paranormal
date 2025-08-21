@@ -1,5 +1,7 @@
+import { API_BASE } from './config.js';
+
 try {
-  const data = await fetch("/api")
+  const data = await fetch(API_BASE)
   const response = await data.json()
   renderCards(response)
 } catch (err) {

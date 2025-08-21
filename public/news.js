@@ -1,4 +1,6 @@
-const eventSource = new EventSource("/api/news") 
+import { API_BASE } from './config.js';
+
+const eventSource = new EventSource(`${API_BASE}/news`)
 
 const liveContainer = document.getElementById("live-container")
 

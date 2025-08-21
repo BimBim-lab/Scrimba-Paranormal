@@ -1,3 +1,4 @@
+import { API_BASE } from './config.js';
 const form = document.getElementById("eventForm")
 const formMessageText = document.getElementsByClassName("form-message-text")[0]
 
@@ -42,7 +43,7 @@ form.addEventListener("submit", async function (event) {
   try {
     // Send form data using fetch API
     formMessageText.textContent = ""
-    const response = await fetch("./api", {
+    const response = await fetch(`${API_BASE}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

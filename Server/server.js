@@ -12,12 +12,7 @@ const PUBLIC_DIR = join(__dirname, '..')
 
 function setCORS(req, res) {
   const origin = req.headers.origin || ''
-
-  // longgar: izinkan domain *.vercel.app
-  // (kalau sudah tahu domain final, lebih baik ganti dengan exact match)
-  const allow =
-    /^https?:\/\/([a-z0-9-]+\.)*vercel\.app$/i.test(origin) ||
-    origin === 'https://scrimba-paranormal-production.up.railway.app' // optional
+  const allow = 'https://scrimba-paranormal.vercel.app/'
 
   if (allow) res.setHeader('Access-Control-Allow-Origin', origin)
   res.setHeader('Vary', 'Origin')
