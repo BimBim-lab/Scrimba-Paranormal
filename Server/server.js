@@ -9,11 +9,32 @@ const PORT = 8000
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const PUBLIC_DIR = join(__dirname, '..')
-// Using import.meta.dirname is not standard, so we use dirname from path module
-console.log(PUBLIC_DIR)
+
+function setCORS(req, res) {
+  const origin = req.headers.origin || ''
+
+  // longgar: izinkan domain *.vercel.app
+  // (kalau sudah tahu domain final, lebih baik ganti dengan exact match)
+  const allow =
+    /^https?:\/\/([a-z0-9-]+\.)*vercel\.app$/i.test(origin) ||
+    origin === 'https://scrimba-paranormal-production.up.railway.app' // optional
+
+  if (allow) res.setHeader('Access-Control-Allow-Origin', origin)
+  res.setHeader('Vary', 'Origin')
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+
+  // Tangani preflight
+  if (req.method === 'OPTIONS') {
+    res.statusCode = 204
+    res.end()
+    return true // hentikan handler selanjutnya
+  }
+  return false
+}
 
 const server = http.createServer(async (req, res) => {
-
+    if (setCORS(req, res)) return
     if (req.url === '/api') {
 
         if (req.method === 'GET') {
