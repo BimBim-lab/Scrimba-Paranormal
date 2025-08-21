@@ -12,12 +12,26 @@ const PUBLIC_DIR = join(__dirname, '..')
 
 function setCORS(req, res) {
   const origin = req.headers.origin || ''
-  const allow = 'https://scrimba-paranormal.vercel.app/'
+  const ALLOWLIST = [
+    'https://scrimba-paranormal.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:5173',
+  ];
 
-  if (allow) res.setHeader('Access-Control-Allow-Origin', origin)
-  res.setHeader('Vary', 'Origin')
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  const allowed = ALLOWLIST.includes(origin);
+  if (allowed) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    // kalau butuh kirim cookie/credentials dari frontend:
+    // res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
+
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // opsional: caching preflight biar hemat
+  res.setHeader('Access-Control-Max-Age', '600');
 
   // Tangani preflight
   if (req.method === 'OPTIONS') {
